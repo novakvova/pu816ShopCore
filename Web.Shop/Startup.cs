@@ -19,6 +19,7 @@ namespace Web.Shop
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+          
         }
 
         public IConfiguration Configuration { get; }
@@ -80,6 +81,8 @@ namespace Web.Shop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            SeederDB.SeedData(app.ApplicationServices, env, this.Configuration);
         }
     }
 }
