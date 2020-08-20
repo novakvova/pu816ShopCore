@@ -20,6 +20,7 @@ namespace Web.Shop.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogWarning("Привіт. Це home -> index :)");
             return View();
         }
 
