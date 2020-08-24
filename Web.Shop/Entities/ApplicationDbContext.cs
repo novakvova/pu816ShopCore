@@ -17,6 +17,8 @@ namespace Web.Shop.Entities
         {
 
         }
+        public DbSet<Category> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // использование Fluent API

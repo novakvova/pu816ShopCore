@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Shop.Entities;
+using Web.Shop.Repo.Implement;
+using Web.Shop.Repo.Interafaces;
 
 namespace Web.Shop
 {
@@ -52,6 +54,8 @@ namespace Web.Shop
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<ICategoryRepo, CategoryRepo>();
 
             services.AddControllersWithViews();
         }

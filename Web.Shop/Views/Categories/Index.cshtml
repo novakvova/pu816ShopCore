@@ -1,0 +1,28 @@
+﻿@using Web.Shop.Entities
+@model List<Category>
+@{
+    ViewData["Title"] = "Список користувачів";
+}
+<h1>Список категорій</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cat in Model)
+                {
+                    <tr>
+                        <th scope="row">@cat.Id</th>
+                        <td>@cat.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
