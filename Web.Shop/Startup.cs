@@ -57,6 +57,8 @@ namespace Web.Shop
 
             services.AddScoped<ICategoryRepo, CategoryRepo>();
 
+            services.AddScoped<INewsRepo, NewsRepo>();
+
             services.AddControllersWithViews();
         }
 

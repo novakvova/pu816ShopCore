@@ -12,21 +12,21 @@ using Web.Shop.Repo.Interafaces;
 
 namespace Web.Shop.Controllers
 {
-    public class CategoriesController : Controller
+    public class NewsController : Controller
     {
-        private readonly ILogger<CategoriesController> _logger;
-        private readonly ICategoryRepo _categoryRepos;
+        private readonly ILogger<NewsController> _logger;
+        private readonly INewsRepo _newsRepos;
 
-        public CategoriesController(ILogger<CategoriesController> logger,
-            ICategoryRepo categoryRepos)
+        public NewsController(ILogger<NewsController> logger,
+            INewsRepo newsRepos)
         {
             _logger = logger;
-            _categoryRepos = categoryRepos;
+            _newsRepos = newsRepos;
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = _categoryRepos.GetAll().ToList();
+            var list = _newsRepos.GetAll().ToList();
             //await _categoryRepos.Add(
             //    new Category()
             //    {
@@ -34,7 +34,18 @@ namespace Web.Shop.Controllers
             //    });
             return View(list);
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(News news)
+        {
+            news.DateCreate = DateTime.Now;
+            _newsRepos.Add(news);
+            return RedirectToAction("Index");
+        }
 
-        
+
     }
 }
