@@ -10,5 +10,6 @@ namespace Web.Shop.Repo.Interafaces
     {
         IQueryable<TEntity> GetAll(bool notDeleted = true);
         Task<TId> Add(TEntity entity);
+        List<TEntity> GetPageList(int page);
     }
 }

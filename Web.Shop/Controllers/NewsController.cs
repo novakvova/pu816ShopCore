@@ -24,9 +24,9 @@ namespace Web.Shop.Controllers
             _newsRepos = newsRepos;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=1)
         {
-            var list = _newsRepos.GetAll().ToList();
+            var list = _newsRepos.GetPageList(page);
             //await _categoryRepos.Add(
             //    new Category()
             //    {

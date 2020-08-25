@@ -32,5 +32,17 @@ namespace Web.Shop.Repo.Implement
             this.Context.SaveChanges();
             return entity.Id;
         }
+
+        public List<TEntity> GetPageList(int page)
+        {
+            int pageSize = 2;
+            int pageNo = page - 1;
+            var query = this.GetAll();
+            var list = query.OrderBy(x=>x.Id)
+                .Skip(pageNo * pageSize)
+                .Take(pageSize)
+                .ToList();
+            return list;
+        }
     }
 }
