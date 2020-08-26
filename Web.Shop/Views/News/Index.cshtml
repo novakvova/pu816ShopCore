@@ -1,5 +1,5 @@
 ﻿@using Web.Shop.Entities
-@model List<News>
+@model NewsVM
 @{
     ViewData["Title"] = "Список новин";
 }
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.list)
                 {
                     <tr>
                         <th scope="row">@item.Id</th>
@@ -26,5 +26,21 @@
                 }
             </tbody>
         </table>
+
+        @for (int i = Model.minPage; i <= Model.maxPage; i++)
+        {
+            @if (i == Model.currentPage)
+            {
+                @i    
+            }
+            else
+            {
+                <a asp-action="Index" asp-route-page="@i">
+                    @i
+                </a>
+            }
+        }
+
+
     </div>
 </div>

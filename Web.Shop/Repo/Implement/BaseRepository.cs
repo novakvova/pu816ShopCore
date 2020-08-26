@@ -33,9 +33,9 @@ namespace Web.Shop.Repo.Implement
             return entity.Id;
         }
 
-        public List<TEntity> GetPageList(int page)
+        public List<TEntity> GetPageList(int page, int pageSize = 2)
         {
-            int pageSize = 2;
+        
             int pageNo = page - 1;
             var query = this.GetAll();
             var list = query.OrderBy(x=>x.Id)
@@ -43,6 +43,11 @@ namespace Web.Shop.Repo.Implement
                 .Take(pageSize)
                 .ToList();
             return list;
+        }
+
+        public int GetCountItems()
+        {
+            return this.GetAll().Count();
         }
     }
 }

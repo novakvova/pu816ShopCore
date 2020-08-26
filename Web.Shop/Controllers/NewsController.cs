@@ -26,13 +26,16 @@ namespace Web.Shop.Controllers
 
         public async Task<IActionResult> Index(int page=1)
         {
-            var list = _newsRepos.GetPageList(page);
-            //await _categoryRepos.Add(
-            //    new Category()
-            //    {
-            //        Id
-            //    });
-            return View(list);
+            NewsVM model = new NewsVM();
+
+            model.list = _newsRepos.GetPageList(page, 2);
+            model.currentPage = page;
+            model.minPage = 1;
+
+            model.maxPage = (_newsRepos.GetCountItems() % 2 != 0) ? _newsRepos.GetCountItems() / 2 + 1 : _newsRepos.GetCountItems() / 2;
+
+       
+            return View(model);
         }
         public IActionResult Create()
         {
