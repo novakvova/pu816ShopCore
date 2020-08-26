@@ -25,9 +25,9 @@ namespace Web.Shop.Controllers
             _newsService = newsService;
         }
 
-        public async Task<IActionResult> Index(NewsFilterVM filter)
+        public async Task<IActionResult> Index(NewsFilterVM filter, int page=1)
         {
-            var model = _newsService.GetNews(filter);
+            var model = _newsService.GetNews(filter, page);
             return View(model);
         }
         public IActionResult Create()

@@ -18,7 +18,7 @@ namespace Web.Shop.Services.Implement
         {
             _newsRepo = newsRepo;
         }
-        public NewsVM GetNews(NewsFilterVM filter)
+        public NewsVM GetNews(NewsFilterVM filter, int page)
         {
             NewsVM model = new NewsVM();
             int pageSize = 2;
@@ -29,15 +29,17 @@ namespace Web.Shop.Services.Implement
             if (filter.Id != 0)
                 query = query.Where(x => x.Id == filter.Id);
 
-            int pageNo = filter.Page - 1;
+            int pageNo = page;
             model.list = query.OrderBy(x => x.Id)
                 .Skip(pageNo * pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            model.currentPage = filter.Page;
             int allCount = query.Count();
+            model.Page = page;
             model.maxPage = (int)Math.Ceiling((double)allCount / pageSize);
+
+            model.NewsFilter = filter;
 
             return model;
         }

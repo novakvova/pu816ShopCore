@@ -9,7 +9,7 @@ namespace Web.Shop.Models
 {
     public class NewsVM
     {
-        public int currentPage { get; set; }
+        public int Page { get; set; }
         public int maxPage { get; set; }
         public List<News> list { get; set; }
         public NewsFilterVM NewsFilter { get; set; }
@@ -17,16 +17,12 @@ namespace Web.Shop.Models
 
     public class NewsFilterVM
     {
-        public NewsFilterVM()
-        {
-            Page = 1;
-        }
         [Display(Name = "Id")]
         public int Id { get; set; }
 
         [Display(Name="Назва новини")]
         public string Name { get; set; }
-        public int Page { get; set; }
+       
     }
 
 }
