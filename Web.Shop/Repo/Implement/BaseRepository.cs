@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Web.Shop.Entities;
 using Web.Shop.Repo.Interafaces;
@@ -33,11 +34,13 @@ namespace Web.Shop.Repo.Implement
             return entity.Id;
         }
 
-        public List<TEntity> GetPageList(int page, int pageSize = 2)
+        public List<TEntity> GetPageList(int page, int pageSize = 2, Expression<Func<TEntity, bool>> filter = null)
         {
         
             int pageNo = page - 1;
             var query = this.GetAll();
+            if (filter != null)
+                query = query.Where(filter);
             var list = query.OrderBy(x=>x.Id)
                 .Skip(pageNo * pageSize)
                 .Take(pageSize)

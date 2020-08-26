@@ -27,20 +27,25 @@
             </tbody>
         </table>
 
-        @for (int i = Model.minPage; i <= Model.maxPage; i++)
-        {
-            @if (i == Model.currentPage)
-            {
-                @i    
-            }
-            else
-            {
-                <a asp-action="Index" asp-route-page="@i">
-                    @i
-                </a>
-            }
-        }
 
+
+        <nav>
+            <ul class="pagination">
+
+                <li class="page-item @(Model.currentPage == 1? "disabled":"")">
+                    <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@(Model.currentPage - 1)" tabindex="-1">Previous</a>
+                </li>
+                @for (int i = 1; i < Model.maxPage + 1; i++)
+                {
+                    <li class="page-item @(Model.currentPage == i ? "active": "" )">
+                        <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@i">@i <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                <li class="page-item @(Model.currentPage == Model.maxPage? "disabled":"")">
+                    <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@(Model.currentPage+1)">Next</a>
+                </li>
+            </ul>
+        </nav>
 
     </div>
 </div>

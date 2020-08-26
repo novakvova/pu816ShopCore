@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Web.Shop.Entities;
 
@@ -10,7 +11,7 @@ namespace Web.Shop.Repo.Interafaces
     {
         IQueryable<TEntity> GetAll(bool notDeleted = true);
         Task<TId> Add(TEntity entity);
-        List<TEntity> GetPageList(int page, int pageSize);
+        List<TEntity> GetPageList(int page, int pageSize, Expression<Func<TEntity, bool>> filter = null);
         int GetCountItems();
     }
 }

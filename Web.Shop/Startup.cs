@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Web.Shop.Entities;
 using Web.Shop.Repo.Implement;
 using Web.Shop.Repo.Interafaces;
+using Web.Shop.Services.Implement;
+using Web.Shop.Services.Interfaces;
 
 namespace Web.Shop
 {
@@ -58,6 +60,7 @@ namespace Web.Shop
             services.AddScoped<ICategoryRepo, CategoryRepo>();
 
             services.AddScoped<INewsRepo, NewsRepo>();
+            services.AddScoped<INewsService, NewsService>();
 
             services.AddControllersWithViews();
         }
