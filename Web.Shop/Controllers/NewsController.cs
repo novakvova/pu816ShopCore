@@ -35,11 +35,14 @@ namespace Web.Shop.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(News news)
+        public IActionResult Create(NewsAddVM model)
         {
-            //news.DateCreate = DateTime.Now;
-            //_newsRepos.Add(news);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _newsService.AddNews(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
 
 

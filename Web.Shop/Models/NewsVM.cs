@@ -25,4 +25,24 @@ namespace Web.Shop.Models
        
     }
 
+    public class NewsAddVM
+    {
+        [Display(Name = "Назва новини")]
+        [Required(ErrorMessage ="Вкажіть назву")]
+        public string Name { get; set; }
+
+        [Display(Name = "URL Slug")]
+        [Required(ErrorMessage = "Вкажіть slug")]
+        public string UrlSlug { get; set; }
+
+        [Display(Name = "Фото")]
+        [Required(ErrorMessage = "Оберіть фото")]
+        public string Image { get; set; }
+
+        [Display(Name = "Опис")]
+        [Required(ErrorMessage = "Вкажіть опис")]
+        public string Description { get; set; }
+
+    }
+
 }

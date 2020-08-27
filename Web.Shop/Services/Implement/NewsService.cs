@@ -18,6 +18,20 @@ namespace Web.Shop.Services.Implement
         {
             _newsRepo = newsRepo;
         }
+
+        public void AddNews(NewsAddVM newsAdd)
+        {
+            News news = new News
+            {
+                Name = newsAdd.Name,
+                Image = newsAdd.Image,
+                UrlSlug = newsAdd.UrlSlug,
+                Description = newsAdd.Description,
+                DateCreate = DateTime.Now
+            };
+            _newsRepo.Add(news);
+        }
+
         public NewsVM GetNews(NewsFilterVM filter, int page)
         {
             NewsVM model = new NewsVM();
@@ -29,7 +43,7 @@ namespace Web.Shop.Services.Implement
             if (filter.Id != 0)
                 query = query.Where(x => x.Id == filter.Id);
 
-            int pageNo = page;
+            int pageNo = page-1;
             model.list = query.OrderBy(x => x.Id)
                 .Skip(pageNo * pageSize)
                 .Take(pageSize)
