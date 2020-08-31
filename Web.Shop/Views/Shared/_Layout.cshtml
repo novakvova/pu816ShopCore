@@ -16,8 +16,8 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -31,6 +31,30 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form-inline my-2 my-lg-0" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            
+                                <a asp-controller="Profile" asp-action="Index">Привіт @User.Identity.Name</a>
+                           
+                                <a href="#" onclick="document.getElementById('logoutForm').submit();"
+                                   class="nav-link btn btn-link text-dark">Вихід</a>
+                            
+                        }
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav ml-auto">
+                            @*<li>@Html.ActionLink("Реєстрація", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вхід</a>
+                            </li>
+                        </ul>
+                    }
+
                 </div>
             </div>
         </nav>
