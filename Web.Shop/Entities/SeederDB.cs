@@ -24,6 +24,12 @@ namespace Web.Shop.Entities
                 {
                     Name = roleName
                 }).Result;
+                
+                roleName = "User";
+                result = managerRole.CreateAsync(new DbRole
+                {
+                    Name = roleName
+                }).Result;
 
                 string email = "admin@gmail.com";
                 var user = new DbUser

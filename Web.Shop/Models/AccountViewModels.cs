@@ -17,4 +17,23 @@ namespace Web.Shop.Models
         [Required(ErrorMessage = "Вкажіть пароль")]
         public string Password { get; set; }
     }
+    public class RegistrationViewModel
+    {
+        [Display(Name = "User name")]
+        [Required(ErrorMessage = "Invalid user name")]
+        public string UserName { get; set; }
+        //
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "Invalid email")]
+        public string Email { get; set; }
+        //
+        [Display(Name = "Phone number")]
+        [Required(ErrorMessage = "Invalid phone number")]
+        public string PhoneNumber { get; set; }
+        //
+        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Invalid password")]
+        public string Password { get; set; }
+    }
 }

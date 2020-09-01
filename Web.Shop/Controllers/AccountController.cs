@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace Web.Shop.Controllers
         private readonly SignInManager<DbUser> _signInManager;
         private readonly RoleManager<DbRole> _roleManager;
 
-        public AccountController(UserManager<DbUser> userManager, 
+        public AccountController(UserManager<DbUser> userManager,
             SignInManager<DbUser> signInManager,
             RoleManager<DbRole> roleManager)
         {
@@ -58,5 +59,43 @@ namespace Web.Shop.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registration(RegistrationViewModel model)
+        {
+            bool isEmailExist = await _userManager.FindByEmailAsync(model.Email) == null;
+            bool isEmailCorrect = model.Email != null && Regex.IsMatch(model.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            bool isPhoneCorrect = model.PhoneNumber != null && Regex.IsMatch(model.PhoneNumber, @"^[+]380\d{9}$");
+            if (!isEmailCorrect || !isEmailExist)
+            {
+                ModelState.AddModelError("Email", "Invalid email or email exists");
+            }
+            if (!isPhoneCorrect)
+            {
+                ModelState.AddModelError("PhoneNumber", "Invalid phone or phone exists");
+            }
+            if (!isEmailCorrect || !isEmailExist || !isPhoneCorrect)
+            {
+                return View(model);
+            }
+            if (ModelState.IsValid)
+            {
+                var user = new DbUser
+                {
+                    Email = model.Email,
+                    UserName = model.UserName,
+                    PhoneNumber = model.PhoneNumber
+                };
+                 var result = _userManager.CreateAsync(user, model.Password).Result;
+                result = _userManager.AddToRoleAsync(user, "User").Result;
+                return RedirectToAction("Index", "Home");
+            }
+            return View(model);
+        }
     }
 }
