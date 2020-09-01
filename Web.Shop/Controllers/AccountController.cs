@@ -91,8 +91,8 @@ namespace Web.Shop.Controllers
                     UserName = model.UserName,
                     PhoneNumber = model.PhoneNumber
                 };
-                 var result = _userManager.CreateAsync(user, model.Password).Result;
-                result = _userManager.AddToRoleAsync(user, "User").Result;
+                 await _userManager.CreateAsync(user, model.Password);
+                await _userManager.AddToRoleAsync(user, "User");
                 return RedirectToAction("Index", "Home");
             }
             return View(model);
