@@ -19,16 +19,14 @@ namespace Web.Shop.Models
     }
     public class RegistrationViewModel
     {
-        [Display(Name = "User name")]
-        [Required(ErrorMessage = "Invalid user name")]
-        public string UserName { get; set; }
-        //
         [Display(Name = "Email")]
-        [Required(ErrorMessage = "Invalid email")]
+        [Required(ErrorMessage = "Обов'язкове поле")]
+        [EmailAddress(ErrorMessage = "Не корекна пошта")]
         public string Email { get; set; }
         //
         [Display(Name = "Phone number")]
-        [Required(ErrorMessage = "Invalid phone number")]
+        [Required(ErrorMessage = "Обов'язкове поле")]
+        [RegularExpression(@"^[+]380\d{9}$", ErrorMessage="Некоректний номер телефону")]
         public string PhoneNumber { get; set; }
         //
         [Display(Name = "Password")]

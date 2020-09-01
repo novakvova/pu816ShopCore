@@ -69,17 +69,13 @@ namespace Web.Shop.Controllers
         public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
             bool isEmailExist = await _userManager.FindByEmailAsync(model.Email) == null;
-            bool isEmailCorrect = model.Email != null && Regex.IsMatch(model.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-            bool isPhoneCorrect = model.PhoneNumber != null && Regex.IsMatch(model.PhoneNumber, @"^[+]380\d{9}$");
-            if (!isEmailCorrect || !isEmailExist)
+            //bool isEmailCorrect = model.Email != null && Regex.IsMatch(model.Email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (!isEmailExist)
             {
-                ModelState.AddModelError("Email", "Invalid email or email exists");
+                ModelState.AddModelError("Email", "Така пошта уже є. Думай ...");
             }
-            if (!isPhoneCorrect)
-            {
-                ModelState.AddModelError("PhoneNumber", "Invalid phone or phone exists");
-            }
-            if (!isEmailCorrect || !isEmailExist || !isPhoneCorrect)
+            
+            if (!isEmailExist)
             {
                 return View(model);
             }
@@ -88,12 +84,19 @@ namespace Web.Shop.Controllers
                 var user = new DbUser
                 {
                     Email = model.Email,
-                    UserName = model.UserName,
+                    UserName = model.Email,
                     PhoneNumber = model.PhoneNumber
                 };
-                 await _userManager.CreateAsync(user, model.Password);
-                await _userManager.AddToRoleAsync(user, "User");
-                return RedirectToAction("Index", "Home");
+                var result =  await _userManager.CreateAsync(user, model.Password);
+                if(result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Щось пішло не так.");
+                }
             }
             return View(model);
         }
