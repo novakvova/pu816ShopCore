@@ -1,14 +1,17 @@
 ﻿@using Web.Shop.Entities
+@using Microsoft.AspNetCore.Http
+
 @model NewsVM
 @{
     ViewData["Title"] = "Список новин";
+    var value = Context.Session.GetString("username");
 }
-<h1>Список новин</h1>
+<h1>Список новин </h1>
 @await Html.PartialAsync("_SearchData", Model.NewsFilter)
 
 <div class="row">
 
-<a class="btn btn-success" asp-action="Create">Додати новину</a>
+    <a class="btn btn-success" asp-action="Create">Додати новину</a>
 </div>
 <div class="row">
 
@@ -37,16 +40,19 @@
             <ul class="pagination">
                 @{int page = Model.Page; }
                 <li class="page-item @(page == 1? "disabled":"")">
-                    <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@(page - 1)" tabindex="-1">Previous</a>
+                    <a class="page-link" asp-action="Index" asp-controller="News"
+                       asp-route-page="@(page - 1)" asp-route-name="@Model.NewsFilter.Name" tabindex="-1">Previous</a>
                 </li>
                 @for (int i = 1; i < Model.maxPage + 1; i++)
                 {
                     <li class="page-item @(page == i ? "active": "" )">
-                        <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@i">@i <span class="sr-only">(current)</span></a>
+                        <a class="page-link" asp-action="Index" asp-controller="News"
+                           asp-route-page="@i" asp-route-name="@Model.NewsFilter.Name">@i <span class="sr-only">(current)</span></a>
                     </li>
                 }
                 <li class="page-item @(page == Model.maxPage? "disabled":"")">
-                    <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@(page+1)">Next</a>
+                    <a class="page-link" asp-action="Index" asp-controller="News" asp-route-page="@(page+1)"
+                       asp-route-name="@Model.NewsFilter.Name">Next</a>
                 </li>
             </ul>
         </nav>

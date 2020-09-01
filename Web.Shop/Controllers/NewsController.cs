@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,6 +28,7 @@ namespace Web.Shop.Controllers
 
         public async Task<IActionResult> Index(NewsFilterVM filter, int page=1)
         {
+            var usersCount = HttpContext.Session.GetString("username");
             var model = _newsService.GetNews(filter, page);
             return View(model);
         }

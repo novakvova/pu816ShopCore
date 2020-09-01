@@ -65,6 +65,8 @@ namespace Web.Shop
 
             services.AddControllersWithViews();
 
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+
             services.AddSession();
         }
 
