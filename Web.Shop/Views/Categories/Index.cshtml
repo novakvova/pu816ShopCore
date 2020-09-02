@@ -6,12 +6,17 @@
 <h1>Список категорій</h1>
 
 <div class="row">
+
+    <a class="btn btn-success" asp-action="Create">Додати категорію</a>
+</div>
+<div class="row">
     <div class="col-md-12">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Image</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +25,8 @@
                     <tr>
                         <th scope="row">@cat.Id</th>
                         <td>@cat.Name</td>
+                        <td>
+                        <img src = "@cat.Image" width="100"></td>
                     </tr>
                 }
             </tbody>

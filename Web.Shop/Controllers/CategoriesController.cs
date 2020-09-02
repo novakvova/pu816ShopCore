@@ -16,12 +16,14 @@ namespace Web.Shop.Controllers
     {
         private readonly ILogger<CategoriesController> _logger;
         private readonly ICategoryRepo _categoryRepos;
+        private readonly ApplicationDbContext _context;
 
         public CategoriesController(ILogger<CategoriesController> logger,
-            ICategoryRepo categoryRepos)
+            ICategoryRepo categoryRepos, ApplicationDbContext context)
         {
             _logger = logger;
             _categoryRepos = categoryRepos;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -35,6 +37,29 @@ namespace Web.Shop.Controllers
             return View(list);
         }
 
-        
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(CategoryAddVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                Category category = new Category()
+                {
+                    Name = model.Name,
+                    Image = model.Image,
+                    UrlSlug = model.UrlSlug,
+                    DateCreate = DateTime.Now
+                };
+                _context.Categories.Add(category);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+
     }
 }
