@@ -1,6 +1,10 @@
 ﻿@model Web.Shop.Models.RegistrationViewModel
 @{ ViewData["Title"] = "Registration"; }
 
+@section Styles {
+    <link href="~/lib/cropperjs/cropper.min.css" rel="stylesheet" />
+}
+
 <a asp-action="Register" asp-controller="Account">Створити новий акаунт</a>
 <hr />
 <div class="row">
@@ -18,6 +22,17 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Оберіть фото</label>
+
+                <img src="~/img/no-image.png" alt="User Image" id="userImage" />
+                @*<a href="#" class="btn btn-danger" id="croppedImage">Обізакти фото</a>
+                <a href="#" class="btn btn-danger" id="rotateImage">Повернути</a>*@
+            </div>
+            @*<div>
+                <label class="control-label">Результат обрізки фото</label>
+                <img src="~/img/no-image.png" alt="User Image" id="userImageCrop" />
+            </div>*@
+            <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
@@ -32,5 +47,34 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/cropperjs/cropper.min.js"></script>
+    <script>
+        $(function () {
+            //var userImage = document.getElementById("userImage");
+            //const cropper = new Cropper(userImage, {
+            //    aspectRatio: 1/1,
+            //    crop(event) {
+            //        console.log(event.detail.x);
+            //        console.log(event.detail.y);
+            //        console.log(event.detail.width);
+            //        console.log(event.detail.height);
+            //        console.log(event.detail.rotate);
+            //        console.log(event.detail.scaleX);
+            //        console.log(event.detail.scaleY);
+            //    },
+            //});
+            //$("#croppedImage").on("click", function (e) {
+            //    e.preventDefault();
+            //    var contentImage = cropper.getCroppedCanvas().toDataURL();
+            //    $("#userImageCrop").attr("src", contentImage);
+            //    //console.log('--Image data--', contentImage);
+
+            //});
+            //$("#rotateImage").on("click", function (e) {
+            //    e.preventDefault();
+            //    cropper.rotate(45);
+            //});
+        });
+    </script>
 }
 
