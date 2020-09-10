@@ -83,7 +83,10 @@ namespace Web.Shop.Controllers
             }
             return View(model);
         }
-
+        public IActionResult Edit(int id)
+        {
+            return View();
+        }
 
     }
 }
