@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,8 +27,13 @@ namespace Web.Shop.Models
         //
         [Display(Name = "Phone number")]
         [Required(ErrorMessage = "Обов'язкове поле")]
-        [RegularExpression(@"^[+]380\d{9}$", ErrorMessage="Некоректний номер телефону")]
+        //[RegularExpression(@"^[+]380\d{9}$", ErrorMessage="Некоректний номер телефону")]
         public string PhoneNumber { get; set; }
+
+        [Display(Name = "Оберіть фото")]
+        [Required(ErrorMessage = "Оберіть фото профілю")]
+        [HiddenInput]
+        public string PhotoBase64 { get; set; }
         //
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
