@@ -22,11 +22,12 @@
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label class="control-label">Оберіть фото</label>
-
-                <img src="~/img/no-image.png" alt="User Image" id="userImage" />
+                <label asp-for="PhotoBase64" class="control-label"></label>
+                <input asp-for="PhotoBase64" />
+                <img class="cursor-pointer" src="~/img/no-image.png" alt="User Image" width="200" id="userImage" />
+                <span asp-validation-for="PhotoBase64" class="text-danger"></span>
                 @*<a href="#" class="btn btn-danger" id="croppedImage">Обізакти фото</a>
-                <a href="#" class="btn btn-danger" id="rotateImage">Повернути</a>*@
+        <a href="#" class="btn btn-danger" id="rotateImage">Повернути</a>*@
             </div>
             @*<div>
                 <label class="control-label">Результат обрізки фото</label>
@@ -44,36 +45,79 @@
     </div>
 </div>
 
+<div class="modal" id="copperModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ваше фото</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="userphoto">
+                    <div class="gravatar-wrapper-128">
+                        <img src="~/img/no-image.png" alt="User Image" id="imageEdited" height="400" />
+
+                        <a href="#" class="btn btn-danger" id="rotateImage">Повернути</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-primary" id="cropedImage" data-dismiss="modal">Обрати фото для порофілю</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/lib/cropperjs/cropper.min.js"></script>
     <script>
         $(function () {
-            //var userImage = document.getElementById("userImage");
-            //const cropper = new Cropper(userImage, {
-            //    aspectRatio: 1/1,
-            //    crop(event) {
-            //        console.log(event.detail.x);
-            //        console.log(event.detail.y);
-            //        console.log(event.detail.width);
-            //        console.log(event.detail.height);
-            //        console.log(event.detail.rotate);
-            //        console.log(event.detail.scaleX);
-            //        console.log(event.detail.scaleY);
-            //    },
-            //});
-            //$("#croppedImage").on("click", function (e) {
-            //    e.preventDefault();
-            //    var contentImage = cropper.getCroppedCanvas().toDataURL();
-            //    $("#userImageCrop").attr("src", contentImage);
-            //    //console.log('--Image data--', contentImage);
+            var userImage = $("#userImage");
+            var uploader;
+            var cropper = null;
+            userImage.on("click", function () {
+                if (cropper == null) {
+                    //Запуск пропера
+                    const imageEdited = document.getElementById("imageEdited");
+                    cropper = new Cropper(imageEdited, {
+                        aspectRatio: 1 / 1,
+                        viewMode: 1,
+                        autoCropArea: 1
+                    });
+                    //обрізаємо фото
+                    $("#cropedImage").on("click", function (e) {
+                        e.preventDefault();
+                        var imgContent = cropper.getCroppedCanvas().toDataURL();
+                        userImage.attr("src", imgContent);
+                        $("#PhotoBase64").val(imgContent);
+                        $('#copperModal').modal('hide');
+                    });
 
-            //});
-            //$("#rotateImage").on("click", function (e) {
-            //    e.preventDefault();
-            //    cropper.rotate(45);
-            //});
+                }
+                console.log("Натиснули на фото");
+                if (uploader) {
+                    uploader.remove();
+                }
+                uploader = $('<input type="file" accept="image/*" />');
+                uploader.click();
+                uploader.on('change', function () {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        //Фото яке ви обрали
+                        var imageSelect = event.target.result;
+                        //$("#imageEdited").attr("src", imageSelect);
+                        cropper.replace(imageSelect); //Кропер міняє зображення на яке вказує
+                        $('#copperModal').modal('show');
+                    }
+                    reader.readAsDataURL(uploader[0].files[0]);
+
+                });
+            });
         });
     </script>
 }
