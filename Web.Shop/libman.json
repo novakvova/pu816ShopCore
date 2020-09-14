@@ -5,6 +5,17 @@
     {
       "library": "cropperjs@1.5.8",
       "destination": "wwwroot/lib/cropperjs/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "chart.js@2.9.3",
+      "destination": "wwwroot/lib/chart.js/",
+      "files": [
+        "dist/Chart.js",
+        "dist/Chart.css",
+        "dist/Chart.min.js",
+        "dist/Chart.min.css"
+      ]
     }
   ]
 }

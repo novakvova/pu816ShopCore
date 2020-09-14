@@ -1,0 +1,112 @@
+﻿@model StatisticsVM
+@{
+    ViewData["Title"] = "Index";
+}
+@section Styles {
+    <link href="~/lib/chart.js/dist/Chart.min.css" rel="stylesheet" />
+}
+
+<h1>Статистика отримання кристалів</h1>
+<div class="row">
+    <div class="col-md-12">
+        <canvas id="line-chart" width="800" height="450"></canvas>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/lib/chart.js/dist/Chart.min.js"></script>
+    <script>
+        new Chart(document.getElementById("line-chart"), {
+            //type: 'line',
+            type: 'doughnut',
+            data: {
+                labels: [
+                    @foreach(var item in Model.ListData)
+                    {
+                        @:"@Html.Raw(item.Label)",
+                    }
+                ],
+                datasets: [{
+                    data: [
+                        @foreach(var item in Model.ListData)
+                        {
+                            @:@item.Value,
+                        }
+                    ],
+                    backgroundColor: [
+                        "rgb(255, 99, 132)",
+                        "rgb(54, 162, 235)",
+                        "rgb(255, 205, 86)",
+                        "rgb(100, 162, 23)",
+                        "rgb(56, 143, 86)",
+                    ],
+                    label: "Оксана",
+                    pointRadius: 7,
+                    pointHoverRadius: 9,
+                    //borderColor: "#3e95cd",
+                    //fill: false
+                }
+                //    , {
+                //    data: [500, 550, 650, 600, 550, 450, 1010],
+                //    label: "Сніжана",
+                //    pointRadius: 7,
+                //    pointHoverRadius: 9,
+                //    borderColor: "#8e5ea2",
+                //    fill: false
+                //}
+                ],
+                //backgroundColor: "rgba(52,152,219,0.4)"
+            },
+            options: {
+                onClick: function (element, dataAtClick) {
+                    console.log(element, dataAtClick);
+                    // let scaleRef,
+                    //     valueX,
+                    //     valueY;
+                    // for (var scaleKey in this.scales) {
+                    //     scaleRef = this.scales[scaleKey];
+                    //     if (scaleRef.isHorizontal() && scaleKey == 'x-axis-1') {
+                    //         valueX = scaleRef.getValueForPixel(element.offsetX);
+                    //     } else if (scaleKey == 'y-axis-1') {
+                    //         valueY = scaleRef.getValueForPixel(element.offsetY);
+                    //     }
+                    // }
+                    // this.data.datasets.forEach((dataset) => {
+                    //     dataset.data.push({
+                    //         x: valueX,
+                    //         y: valueY
+                    //     });
+                    // });
+                    // this.update();
+                },
+                title: {
+                    display: true,
+                    text: '@Html.Raw(Model.Title)'
+                },
+                elements: {
+                    point: {
+                        //borderColor: "rgb(255,255,0)",
+                        //backgroundColor: "rgb(255,0,0)"
+                    }
+                },
+                //tooltips: {
+                //    showTooltips: false,
+                //    callbacks: {
+                //        label: function (item) {
+                //            console.log("Показник", item.yLabel + " " + item.xLabel);
+                //            return `${item.yLabel} грн.`
+                //        },
+                //    },
+                //    enabled: true,
+                //    mode: 'label'
+                //}
+            }
+        });
+
+
+
+    </script>
+
+}
+
