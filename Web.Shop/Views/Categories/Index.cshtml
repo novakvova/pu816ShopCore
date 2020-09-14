@@ -17,6 +17,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Image</th>
+                    <th>Operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,10 @@
                         <th scope="row">@cat.Id</th>
                         <td>@cat.Name</td>
                         <td>
-                        <img src = "@cat.Image" width="100"></td>
+                        <img src = "/Files/@cat.Image" width="100"></td>
+                        <td>
+                            <a asp-controller="Categories" asp-action="Edit" asp-route-id="@cat.Id">Редагувати</a>
+                        </td>
                     </tr>
                 }
             </tbody>

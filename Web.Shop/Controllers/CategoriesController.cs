@@ -83,7 +83,17 @@ namespace Web.Shop.Controllers
             }
             return View(model);
         }
-
+        public IActionResult Edit(int id)
+        {
+            var model = _context.Categories.FirstOrDefault(q => q.Id == id);
+            return View(new CategoryEditVM() 
+            {
+                Id = model.Id,
+                Name = model.Name,
+                UrlSlug = model.UrlSlug,
+                Image = model.Image
+            });
+        }
 
     }
 }
