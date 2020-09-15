@@ -32,6 +32,12 @@ namespace Web.Shop.Controllers
             var model = _newsService.GetNews(filter, page);
             return View(model);
         }
+        public async Task<IActionResult> Details(string slug)
+        {
+            var model = _newsService.GetNewsBySlug(slug);
+            return View(model);
+        }
+
         public IActionResult Create()
         {
             return View();

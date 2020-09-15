@@ -110,6 +110,10 @@ namespace Web.Shop
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name:"news",
+                    pattern: "{controller=News}/{action=Index}/{slug}"
+                    );
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });

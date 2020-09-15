@@ -57,5 +57,18 @@ namespace Web.Shop.Services.Implement
 
             return model;
         }
+
+        public NewsItemDetails GetNewsBySlug(string slug)
+        {
+            var query = _newsRepo.GetAll()
+                .Where(x => x.UrlSlug == slug)
+                .Select(g=>new NewsItemDetails
+                {
+                    Image= g.Image,
+                    Name = g.Name
+                }) 
+                .FirstOrDefault();
+            return query;
+        }
     }
 }

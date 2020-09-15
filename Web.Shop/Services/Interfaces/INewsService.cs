@@ -8,6 +8,7 @@ namespace Web.Shop.Services.Interfaces
 {
     public interface INewsService
     {
+        NewsItemDetails GetNewsBySlug(string slug);
         NewsVM GetNews(NewsFilterVM NewsFilter, int page);
         void AddNews(NewsAddVM newsAdd);
     }

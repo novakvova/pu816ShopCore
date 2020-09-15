@@ -14,6 +14,12 @@ namespace Web.Shop.Models
         public List<News> list { get; set; }
         public NewsFilterVM NewsFilter { get; set; }
     }
+    public class NewsItemDetails
+    {
+        public string Name { get; set; }
+
+        public string Image { get; set; }
+    }
 
     public class NewsFilterVM
     {
@@ -24,6 +30,7 @@ namespace Web.Shop.Models
         public string Name { get; set; }
        
     }
+
 
     public class NewsAddVM
     {
