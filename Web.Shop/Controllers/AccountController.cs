@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Web.Shop.Entities;
+using Web.Shop.Helpers;
 using Web.Shop.Models;
 
 namespace Web.Shop.Controllers
@@ -15,14 +19,16 @@ namespace Web.Shop.Controllers
         private readonly UserManager<DbUser> _userManager;
         private readonly SignInManager<DbUser> _signInManager;
         private readonly RoleManager<DbRole> _roleManager;
+        private readonly IWebHostEnvironment _env;
 
         public AccountController(UserManager<DbUser> userManager,
             SignInManager<DbUser> signInManager,
-            RoleManager<DbRole> roleManager)
+            RoleManager<DbRole> roleManager,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
+            _env = env;
         }
 
         [HttpGet]
@@ -81,6 +87,27 @@ namespace Web.Shop.Controllers
             }
             if (ModelState.IsValid)
             {
+                string base64 = model.PhotoBase64;
+                if (base64.Contains(","))
+                {
+                    base64 = base64.Split(',')[1];
+                }
+                var bmp = base64.FromBase64StringToImage();
+
+                var serverPath = _env.ContentRootPath; //Directory.GetCurrentDirectory(); //_env.WebRootPath;
+                var folerName = "Uploads";
+                var path = Path.Combine(serverPath, folerName); //
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                string ext = ".jpg";
+                string fileName = Path.GetRandomFileName() + ext;
+
+                string filePathSave = Path.Combine(path, fileName);
+
+                bmp.Save(filePathSave, ImageFormat.Jpeg);
+
                 var user = new DbUser
                 {
                     Email = model.Email,
