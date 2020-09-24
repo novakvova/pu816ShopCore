@@ -45,7 +45,11 @@
                                 <a asp-controller="Profile" asp-action="Index">Привіт @User.Identity.Name</a>
                            
                                 <a href="#" onclick="document.getElementById('logoutForm').submit();"
-                                   class="nav-link btn btn-link text-dark">Вихід</a>
+                                   class="nav-link btn btn-link text-dark">
+                                    @await Component.InvokeAsync("Test")
+
+                                    Вихід
+                                </a>
                             
                         }
                     }
@@ -67,6 +71,7 @@
         </nav>
     </header>
     <div class="container">
+        
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

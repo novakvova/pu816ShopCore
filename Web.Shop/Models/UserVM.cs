@@ -11,4 +11,10 @@ namespace Web.Shop.Models
         public string Email { get; set; }
 
     }
+    public class UserTopMenuInfoVM
+    {
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string Image { get; set; }
+    }
 }
